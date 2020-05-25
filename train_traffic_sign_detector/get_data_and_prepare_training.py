@@ -3,7 +3,8 @@ import os
 from PIL import Image
 import wget
 #Get GTSRB data
-wget.download('https://sid.erda.dk/public/archives/ff17dc924eba88d5d01a807357d6614c/FullIJCNN2013.zip')
+if(not os.path.exists('FullIJCNN2013.zip')):
+    wget.download('https://sid.erda.dk/public/archives/ff17dc924eba88d5d01a807357d6614c/FullIJCNN2013.zip')
 unzip_command = 'unzip FullIJCNN2013.zip'
 os.system(unzip_command)
 
