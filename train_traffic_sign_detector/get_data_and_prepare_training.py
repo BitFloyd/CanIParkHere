@@ -1,12 +1,11 @@
 # Step 1: Convert GTSRB ppm images to jpg
 import os
 from PIL import Image
-
+import wget
 #Get GTSRB data
-download_command = 'wget https://sid.erda.dk/public/archives/ff17dc924eba88d5d01a807357d6614c/FullIJCNN2013.zip'
-os.system(download_command)
+wget.download('https://sid.erda.dk/public/archives/ff17dc924eba88d5d01a807357d6614c/FullIJCNN2013.zip')
 unzip_command = 'unzip FullIJCNN2013.zip'
-
+os.system(unzip_command)
 
 image_data_dir = 'FullIJCNN2013'
 ppm_images_list = [os.path.join(image_data_dir, i) for i in os.listdir(image_data_dir) if i.endswith('ppm')]
@@ -119,6 +118,9 @@ for filename in gt_dict.keys():
 train_writer.close()
 val_writer.close()
 
-download_model_command = 'wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz'
-
+wget.download('http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz','tensorflow_object_detection/models/ssd_mobilenet_v2_coco.tar.gz')
+unzip_command = 'tar -xzf tensorflow_object_detection/models/ssd_mobilenet_v2_coco.tar.gz'
+os.system(unzip_command)
+mv_command = 'mv tensorflow_object_detection/models/ssd_mobilenet_v2_coco_2018_03_29 tensorflow_object_detection/models/ssd_mobilenet_v2_coco'
+os.system(mv_command)
 
