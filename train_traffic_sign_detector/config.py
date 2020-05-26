@@ -22,6 +22,7 @@ def get_ids_of_interest(category_index, interests):
             id_list.append(value['id'])
     return id_list
 
-SCORE_THRESHOLD=0.5
+TF2=False
+SCORE_THRESHOLD=0.001
 CATEGORY_INDEX = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 ID_LIST = get_ids_of_interest(CATEGORY_INDEX, interests=['hand'])
