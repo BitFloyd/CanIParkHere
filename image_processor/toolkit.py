@@ -85,6 +85,43 @@ def get_hough_lines_from_image(im):
                            int(config.GHLFI_LINES_THRESHOLD * image_dim_low))
     return lines
 
+def save_intersection_lines_image(image,intersections,filename):
+
+    for intersection in intersections:
+        x = intersection[0]
+        y = intersection[1]
+        image = cv2.circle(image, (x, y), radius=5, color=(0, 255, 255), thickness=-1)
+
+    cv2.imwrite(filename, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+
+def save_kmeans_coords_on_image(image,intersections,filename):
+
+    for intersection in intersections:
+        x = intersection[0]
+        y = intersection[1]
+        image = cv2.circle(image, (x, y), radius=15, color=(255, 0, 255), thickness=-1)
+
+    cv2.imwrite(filename, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+
+def save_perspective_transformed_on_image(image,filename):
+    cv2.imwrite(filename, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+
+def save_hough_lines_image(image,lines,filename):
+
+    for line in lines:
+        rho,theta = line[0][0],line[0][1]
+        a = np.cos(theta)
+        b = np.sin(theta)
+        x0 = a*rho
+        y0 = b*rho
+        x1 = int(x0 + 1000*(-b))
+        y1 = int(y0 + 1000*(a))
+        x2 = int(x0 - 1000*(-b))
+        y2 = int(y0 - 1000*(a))
+
+        cv2.line(image,(x1,y1),(x2,y2),(0,0,255),2)
+
+    cv2.imwrite(filename,cv2.cvtColor(image,cv2.COLOR_RGB2BGR))
 
 def get_valid_perspective_from_localized_sign(image):
     '''

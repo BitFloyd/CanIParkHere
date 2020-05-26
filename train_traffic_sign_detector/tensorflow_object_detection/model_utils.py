@@ -79,3 +79,19 @@ def visualize_detections_on_image(model, image_np):
         line_thickness=8)
 
     return image_np
+
+
+def create_candidate_boxes_in_frame(detection_dict, image_shape, score_threshold):
+    candidate_boxes = []
+    for idx, detection_score in enumerate(detection_dict['detection_scores']):
+        if (detection_score >= score_threshold and detection_dict['detection_classes'][idx] in config.ID_LIST):
+            box = detection_dict['detection_boxes'][idx]
+            ymin, xmin, ymax, xmax = box
+            ymin = int(ymin * image_shape[0])
+            xmin = int(xmin * image_shape[1])
+            ymax = int(ymax * image_shape[0])
+            xmax = int(xmax * image_shape[1])
+            candidate_boxes.append({'xmin': xmin, 'xmax': xmax, 'ymin': ymin, 'ymax': ymax,
+                                    'box_area': (xmax - xmin) * (ymax - ymin),
+                                    'score': detection_score})
+    return candidate_boxes
